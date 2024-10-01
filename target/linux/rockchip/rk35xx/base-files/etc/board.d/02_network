@@ -32,6 +32,7 @@ rockchip_setup_interfaces()
 	friendlyelec,nanopi-r5s|friendlyelec,nanopi-r5s-c1)
 		ucidef_set_interfaces_lan_wan "eth1 eth2" "eth0"
 		;;
+	roceos,k40pro|\
 	lyt,t68m|\
 	fastrhino,r68s|\
 	hinlink,opc-h68k)
@@ -55,7 +56,7 @@ rockchip_setup_interfaces()
 		;;
 	radxa,e54c)
 		ucidef_add_switch "switch0" \
-			"0:wan" "1:lan" "2:lan" "3:lan" "6t@eth0"
+			"3:wan" "2:lan" "1:lan" "0:lan" "6t@eth0"
 		;;
 	*)
 		ucidef_set_interface_lan 'eth0' 'dhcp'
@@ -113,6 +114,7 @@ rockchip_setup_macs()
 	radxa,e20c|\
 	radxa,e52c|\
 	radxa,e54c|\
+	roceos,k40pro|\
 	fastrhino,r66s|\
 	fastrhino,r68s)
 		wan_mac=$(generate_mac_from_mmc)

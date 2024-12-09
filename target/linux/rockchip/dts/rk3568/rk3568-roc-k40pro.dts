@@ -9,18 +9,13 @@
 #include "rk3568-roc-k40pro.dtsi"
 
 / {
-	compatible = "roceos,k40pro", "rockchip,rk3568";
-	model = "ROCEOS K40PRO";
-	eth_order =  "fe010000.ethernet,fe2a0000.ethernet,0000:01:00.0,0001:11:00.0";
+	compatible = "roceos,k40prov3", "rockchip,rk3568";
+	model = "ROCEOS K40PRO V3";
+	eth_order =  "fe010000.ethernet,fe2a0000.ethernet,0001:11:00.0,0000:01:00.0";
 	kdebug = "0";
-	hwmodel_id = "K40PRO";
+	hwmodel_id = "K40PROV3";
 	r8168_led = <0x438>;
 	hw_support = "hdmi";
-
-	aliases {
-		ethernet0 = &gmac0;
-		ethernet1 = &gmac1;
-	};
 
 	pwr-net-25g {
 		compatible = "regulator-fixed";
@@ -28,80 +23,20 @@
 		pinctrl-0 = <&pwr_25g_en>;
 		regulator-name = "vcc-pwr-25g";
 		regulator-always-on;
+		vin-supply = <&vcc3v3_sys>;
 	};
-};
 
-&gmac0 {
-	phy-mode = "rgmii";
-	clock_in_out = "input";
-
-	snps,reset-gpio = <&gpio2 RK_PD3 GPIO_ACTIVE_LOW>;
-	snps,reset-active-low;
-	/* Reset time is 20ms, 100ms for rtl8211f */
-	snps,reset-delays-us = <0 20000 100000>;
-
-	assigned-clocks = <&cru SCLK_GMAC0_RX_TX>, <&cru SCLK_GMAC0>;
-	assigned-clock-parents = <&cru SCLK_GMAC0_RGMII_SPEED>, <&cru CLK_MAC0_2TOP>;
-	assigned-clock-rates = <0>, <125000000>;
-
-	pinctrl-names = "default";
-	pinctrl-0 = <&gmac0_miim
-		     &gmac0_tx_bus2
-		     &gmac0_rx_bus2
-		     &gmac0_rgmii_clk
-		     &gmac0_rgmii_bus>;
-
-	tx_delay = <0x3c>;
-	rx_delay = <0x2f>;
-
-	phy-handle = <&rgmii_phy0>;
-	status = "okay";
-};
-
-&gmac1 {
-	phy-mode = "rgmii";
-	clock_in_out = "input";
-
-	snps,reset-gpio = <&gpio2 RK_PD1 GPIO_ACTIVE_LOW>;
-	snps,reset-active-low;
-	/* Reset time is 20ms, 100ms for rtl8211f */
-	snps,reset-delays-us = <0 20000 100000>;
-
-	assigned-clocks = <&cru SCLK_GMAC1_RX_TX>, <&cru SCLK_GMAC1>;
-	assigned-clock-parents = <&cru SCLK_GMAC1_RGMII_SPEED>, <&cru CLK_MAC1_2TOP>;
-	assigned-clock-rates = <0>, <125000000>;
-
-	pinctrl-names = "default";
-	pinctrl-0 = <&gmac1m1_miim
-		     &gmac1m1_tx_bus2
-		     &gmac1m1_rx_bus2
-		     &gmac1m1_rgmii_clk
-		     &gmac1m1_rgmii_bus>;
-
-	tx_delay = <0x4f>;
-	rx_delay = <0x26>;
-
-	phy-handle = <&rgmii_phy1>;
-	status = "okay";
-};
-
-&mdio0 {
-	rgmii_phy0: phy@0 {
-		compatible = "ethernet-phy-ieee802.3-c22";
-		reg = <0x0>;
+	vcc3v3_nvme: vcc3v3-nvme-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc3v3_nvme";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		enable-active-high;
+		gpio = <&gpio0 RK_PA5 GPIO_ACTIVE_HIGH>;
+		vin-supply = <&dc_12v>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc3v3_nvme_en>;
 	};
-};
-
-&mdio1 {
-	rgmii_phy1: phy@0 {
-		compatible = "ethernet-phy-ieee802.3-c22";
-		reg = <0x0>;
-	};
-};
-
-
-&sata0 {
-	status = "disabled";
 };
 
 //配置WL_REG_ON引脚
@@ -158,6 +93,7 @@
 };
 
 &pcie2x1 {
+	rockchip,init-delay-ms = <100>;
 	reset-gpios = <&gpio3 RK_PA4 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 };
@@ -170,6 +106,7 @@
 
 &pcie3x2 {
 	reset-gpios = <&gpio2 RK_PD6 GPIO_ACTIVE_HIGH>;
+	vpcie3v3-supply = <&vcc3v3_nvme>;
 	status = "okay";
 };
 
@@ -177,6 +114,11 @@
 	pwr-25g {
 		pwr_25g_en: pwr-25g-en {
 			rockchip,pins = <3 RK_PB1 RK_FUNC_GPIO &pcfg_output_high>;
+		};
+	};
+	nvme {
+		vcc3v3_nvme_en: vcc3v3-nvme-en {
+			rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
 };

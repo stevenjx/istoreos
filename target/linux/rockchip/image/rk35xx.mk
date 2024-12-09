@@ -153,6 +153,24 @@ $(call Device/rk3568)
 endef
 TARGET_DEVICES += easepi_ars4
 
+define Device/easepi_r1
+$(call Device/rk3568)
+  DEVICE_VENDOR := EasePi
+  DEVICE_MODEL := R1
+  DEVICE_DTS := rk3568-easepi-r1
+  SUPPORTED_DEVICES += easepi,r1
+  DEVICE_PACKAGES := kmod-r8125 kmod-r8168 kmod-nvme kmod-thermal
+endef
+TARGET_DEVICES += easepi_r1
+
+define Device/friendlyelec_nanopi-r3s
+$(call Device/rk3566)
+  DEVICE_VENDOR := FriendlyARM
+  DEVICE_MODEL := NanoPi R3S
+  DEVICE_PACKAGES := kmod-r8168
+endef
+TARGET_DEVICES += friendlyelec_nanopi-r3s
+
 define Device/friendlyarm_nanopi-r5s
 $(call Device/rk3568)
 $(call Device/rk3568_combined_friendlyelec)
@@ -316,6 +334,15 @@ $(call Device/rk3566)
 endef
 TARGET_DEVICES += le_hes30
 
+define Device/linkfog_ala2
+$(call Device/rk3568)
+  DEVICE_VENDOR := Linkfog
+  DEVICE_MODEL := ALA2
+  DEVICE_DTS := rk3568-ala2
+  DEVICE_PACKAGES := kmod-nvme kmod-scsi-core kmod-thermal kmod-switch-rtl8367b swconfig
+endef
+TARGET_DEVICES += linkfog_ala2
+
 define Device/mangopi_m28k
 $(call Device/rk3528_rtl8111h)
   DEVICE_VENDOR := MangoPi
@@ -336,6 +363,7 @@ define Device/radxa_e52c
 $(call Device/rk3582)
   DEVICE_VENDOR := Radxa
   DEVICE_MODEL := E52C
+  UBOOT_DEVICE_NAME := easepi-ddr1-rk3588
 endef
 TARGET_DEVICES += radxa_e52c
 
@@ -351,11 +379,21 @@ define Device/roc_k40pro
 $(call Device/rk3568)
   DEVICE_VENDOR := ROCEOS
   DEVICE_MODEL := K40PRO
-  DEVICE_DTS := rk3568-roc-k40pro
+  DEVICE_DTS := rk3568-roc-k40pro-v2
   SUPPORTED_DEVICES += roceos,k40pro
-  DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-thermal
+  DEVICE_PACKAGES := kmod-r8125 kmod-r8168 kmod-nvme kmod-thermal
 endef
 TARGET_DEVICES += roc_k40pro
+
+define Device/roc_k50s
+$(call Device/rk3568)
+  DEVICE_VENDOR := ROCEOS
+  DEVICE_MODEL := K50S
+  DEVICE_DTS := rk3568-roc-k50s
+  SUPPORTED_DEVICES += roceos,k50s
+  DEVICE_PACKAGES := kmod-r8125 kmod-thermal
+endef
+TARGET_DEVICES += roc_k50s
 
 define Device/nlnet_xgp
 $(call Device/rk3568)

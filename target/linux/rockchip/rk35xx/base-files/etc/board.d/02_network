@@ -36,6 +36,7 @@ rockchip_setup_interfaces()
 	easepi,r1|\
 	roceos,k40pro|\
 	lyt,t68m|\
+	lyt,t88m|\
 	fastrhino,r68s|\
 	hinlink,opc-h68k)
 		ucidef_set_interfaces_lan_wan 'eth1 eth2 eth3' 'eth0'
@@ -46,6 +47,8 @@ rockchip_setup_interfaces()
 	friendlyelec,nanopi-r6s)
 		ucidef_set_interfaces_lan_wan 'eth2 eth0' 'eth1'
 		;;
+	ezpro,mrkaio-m68s|\
+	ezpro,mrkaio-m68s-plus|\
 	radxa,e20c|\
 	mangopi,m28k|\
 	hlink,h28k)
@@ -99,6 +102,8 @@ rockchip_setup_macs()
 	armsom,sige7-v1|\
 	easepi,ars4|\
 	easepi,r1|\
+	ezpro,mrkaio-m68s|\
+	ezpro,mrkaio-m68s-plus|\
 	firefly,rk3568-roc-pc|\
 	friendlyelec,nanopi-r3s|\
 	friendlyelec,nanopi-r5s|\
@@ -122,6 +127,7 @@ rockchip_setup_macs()
 	dg,nas-lite|\
 	linkfog,ala2|\
 	lyt,t68m|\
+	lyt,t88m|\
 	mangopi,m28k|\
 	nlnet,xgp|\
 	radxa,e20c|\

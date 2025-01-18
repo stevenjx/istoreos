@@ -357,11 +357,13 @@ board_set_iface_smp_affinity() {
 			set_iface_cpumask 5 eth1 eth1-0 a
 		fi
 		;;
+	easepi,r2|\
 	ynn,nas|\
 	le,hes30|\
 	jp,tvbox|\
 	panther,x2|\
 	dg,nas-lite|\
+	dg,tn3568|\
 	hsa,bh2)
 		set_iface_cpumask 2 "eth0"
 		;;

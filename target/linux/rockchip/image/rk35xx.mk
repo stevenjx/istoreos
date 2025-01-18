@@ -163,6 +163,16 @@ $(call Device/rk3568)
 endef
 TARGET_DEVICES += easepi_r1
 
+define Device/easepi_r2
+$(call Device/rk3568)
+  DEVICE_VENDOR := EasePi
+  DEVICE_MODEL := R2
+  DEVICE_DTS := rk3568-easepi-r2
+  SUPPORTED_DEVICES += easepi,r2
+  DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-thermal
+endef
+TARGET_DEVICES += easepi_r2
+
 define Device/friendlyelec_nanopi-r3s
 $(call Device/rk3566)
   DEVICE_VENDOR := FriendlyARM
@@ -222,6 +232,16 @@ $(call Device/rk3588)
   UBOOT_DEVICE_NAME := lyt-rk3588
 endef
 TARGET_DEVICES += lyt_t88m
+
+define Device/yijiahe_jm10
+$(call Device/rk3588)
+  DEVICE_VENDOR := YIJIAHE
+  DEVICE_MODEL := JM10
+  DEVICE_PACKAGES := kmod-r8125 kmod-nvme kmod-scsi-core kmod-hwmon-pwmfan kmod-thermal kmod-dsa-mv88e6xxx kmod-rkwifi-bcmdhd-pcie rkwifi-firmware-ap6275p
+  SUPPORTED_DEVICES += yijiahe,jm10
+  DEVICE_DTS := rk3588-yijiahe-jm10
+endef
+TARGET_DEVICES += yijiahe_jm10
 
 define Device/hinlink_rk3588
 $(call Device/rk3588)
@@ -303,9 +323,19 @@ $(call Device/rk3568)
   DEVICE_MODEL := NAS LITE
   DEVICE_DTS := rk3568-dg-nas-lite
   SUPPORTED_DEVICES += dg,nas-lite
-  DEVICE_PACKAGES := kmod-nvme kmod-scsi-core
+  DEVICE_PACKAGES := kmod-nvme kmod-scsi-core kmod-hwmon-pwmfan kmod-thermal
 endef
 TARGET_DEVICES += dg_nas-lite
+
+define Device/dg_tn3568
+$(call Device/rk3568)
+  DEVICE_VENDOR := DG
+  DEVICE_MODEL := TN3568
+  DEVICE_DTS := rk3568-dg-tn3568
+  SUPPORTED_DEVICES += dg,tn3568
+  DEVICE_PACKAGES := kmod-scsi-core kmod-hwmon-pwmfan kmod-thermal
+endef
+TARGET_DEVICES += dg_tn3568
 
 define Device/ezpro_mrkaio-m68s
 $(call Device/rk3568)

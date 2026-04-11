@@ -82,7 +82,20 @@ jobs:
       id: organize
       if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
-        cd openwrt/bin/targets/qualcommax/ipq807x
+        echo "============== 查看实际生成的目录结构 =============="
+        ls -R openwrt/bin/targets/
+        
+        echo "============== 自动寻找并进入固件目录 =============="
+        # 自动获取 targets 下的实际二级目录 (通杀 ipq807x、generic 或 x86/64)
+        TARGET_DIR=$(ls -d openwrt/bin/targets/*/* | head -n 1)
+        
+        if [ -z "$TARGET_DIR" ]; then
+          echo "严重错误：没有找到任何编译输出目录！"
+          exit 1
+        fi
+        
+        echo "成功定位到固件目录: $TARGET_DIR"
+        cd $TARGET_DIR
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT

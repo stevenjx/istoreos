@@ -82,21 +82,18 @@ jobs:
       id: organize
       if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
-        echo "============== 查看实际生成的目录结构 =============="
+        echo "============== 查看系统实际生成的目录名字 =============="
         ls -R openwrt/bin/targets/
         
-        echo "============== 自动寻找并进入固件目录 =============="
-        # 自动获取 targets 下的实际二级目录 (通杀 ipq807x、generic 或 x86/64)
+        echo "============== 自动进入正确的固件目录 =============="
+        # 使用通配符自动抓取生成的架构文件夹路径
         TARGET_DIR=$(ls -d openwrt/bin/targets/*/* | head -n 1)
-        
-        if [ -z "$TARGET_DIR" ]; then
-          echo "严重错误：没有找到任何编译输出目录！"
-          exit 1
-        fi
-        
-        echo "成功定位到固件目录: $TARGET_DIR"
         cd $TARGET_DIR
+        
+        # 删除不需要的 packages 文件夹，只保留固件
         rm -rf packages
+        
+        echo "当前打包路径为: $PWD"
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 

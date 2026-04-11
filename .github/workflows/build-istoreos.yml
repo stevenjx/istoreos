@@ -92,4 +92,4 @@ jobs:
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: iStoreOS_QNAP301W
-        path: ${{ env.FIRMWARE }}  # 将这里的 env:FIRMWARE 改为 env.FIRMWARE
+        path: ${{ env.FIRMWARE }}

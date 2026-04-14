@@ -26,7 +26,7 @@ Signed-off-by: jjm2473 <jjm2473@gmail.com>
  	LEDSEL3			= 0x96,
  	MAC0_BKP		= 0x19e0,
  	RSS_CTRL_8125		= 0x4500,
-@@ -5388,6 +5390,71 @@ static bool rtl_aspm_is_safe(struct rtl8
+@@ -5385,6 +5387,71 @@ static bool rtl_aspm_is_safe(struct rtl8
  	return false;
  }
  
@@ -98,7 +98,7 @@ Signed-off-by: jjm2473 <jjm2473@gmail.com>
  static int rtl_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
  {
  	const struct rtl_chip_info *chip;
-@@ -5569,6 +5636,11 @@ static int rtl_init_one(struct pci_dev *
+@@ -5566,6 +5633,11 @@ static int rtl_init_one(struct pci_dev *
  	if (rc)
  		return rc;
  

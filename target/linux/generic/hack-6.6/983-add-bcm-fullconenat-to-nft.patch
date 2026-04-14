@@ -51,7 +51,7 @@ Subject: [PATCH] netfilter: nft_masq: supports brcm fullcone flag
 +		priv->fullcone = nla_get_u8(tb[NFTA_MASQ_REG_FULLCONE]);
 +
  	if (tb[NFTA_MASQ_REG_PROTO_MIN]) {
- 		err = nft_parse_register_load(tb[NFTA_MASQ_REG_PROTO_MIN],
+ 		err = nft_parse_register_load(ctx, tb[NFTA_MASQ_REG_PROTO_MIN],
  					      &priv->sreg_proto_min, plen);
 @@ -79,6 +84,9 @@ static int nft_masq_dump(struct sk_buff
  	    nla_put_be32(skb, NFTA_MASQ_FLAGS, htonl(priv->flags)))

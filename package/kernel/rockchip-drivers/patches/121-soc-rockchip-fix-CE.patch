@@ -19,7 +19,7 @@ Subject: [PATCH] soc/rockchip: fix ce
  						       info->volt_sel);
 +#else
 +	{
-+		WARN_ONCE(1, "CONFIG_ROCKCHIP_CLK_PVTPLL not enabled, should not going to here\n");
++		//WARN_ONCE(1, "CONFIG_ROCKCHIP_CLK_PVTPLL not enabled, should not going to here\n");
 +		return 0;
 +	}
 +#endif

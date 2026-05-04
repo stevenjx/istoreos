@@ -1,4 +1,4 @@
-From 56f741cfa63ef4970acea019f56dc683ee1af573 Mon Sep 17 00:00:00 2001
+From 181b35a17de4223e0a4f36ba8e31ef31700e01ef Mon Sep 17 00:00:00 2001
 From: jjm2473 <jjm2473@gmail.com>
 Date: Mon, 24 Feb 2025 15:44:03 +0800
 Subject: [PATCH] RGA: fix pte map API on linux 6.6
@@ -13,9 +13,11 @@ ERROR: modpost: "__pte_offset_map_lock" [/openwrt/build_dir/target-aarch64_gener
  drivers/video/rockchip/rga3/rga_mm.c        | 10 ++++++++++
  3 files changed, 30 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/video/rockchip/rga/rga_mmu_info.c b/drivers/video/rockchip/rga/rga_mmu_info.c
+index 9dcffa5..d9a4415 100644
 --- a/drivers/video/rockchip/rga/rga_mmu_info.c
 +++ b/drivers/video/rockchip/rga/rga_mmu_info.c
-@@ -428,6 +428,14 @@ static int rga_MapUserMemory(struct page
+@@ -424,6 +424,14 @@ static int rga_MapUserMemory(struct page **pages,
                          pte_t       * pte;
                          spinlock_t  * ptl;
                          unsigned long pfn;
@@ -30,7 +32,7 @@ ERROR: modpost: "__pte_offset_map_lock" [/openwrt/build_dir/target-aarch64_gener
                          pgd_t * pgd;
  #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
  						p4d_t * p4d;
-@@ -477,7 +485,7 @@ static int rga_MapUserMemory(struct page
+@@ -473,7 +481,7 @@ static int rga_MapUserMemory(struct page **pages,
                          {
                              break;
                          }
@@ -39,9 +41,11 @@ ERROR: modpost: "__pte_offset_map_lock" [/openwrt/build_dir/target-aarch64_gener
                          pfn = pte_pfn(*pte);
                          Address = ((pfn << PAGE_SHIFT) | (((unsigned long)((Memory + i) << PAGE_SHIFT)) & ~PAGE_MASK));
                          pte_unmap_unlock(pte, ptl);
+diff --git a/drivers/video/rockchip/rga2/rga2_mmu_info.c b/drivers/video/rockchip/rga2/rga2_mmu_info.c
+index a01ba08..701fff7 100644
 --- a/drivers/video/rockchip/rga2/rga2_mmu_info.c
 +++ b/drivers/video/rockchip/rga2/rga2_mmu_info.c
-@@ -909,12 +909,14 @@ static int rga2_MapUserMemory(struct pag
+@@ -909,12 +909,14 @@ static int rga2_MapUserMemory(struct page **pages, uint32_t *pageTable,
  	struct page __maybe_unused *page;
  	spinlock_t * ptl;
  	pte_t * pte;
@@ -56,7 +60,7 @@ ERROR: modpost: "__pte_offset_map_lock" [/openwrt/build_dir/target-aarch64_gener
  
  	status = 0;
  	Address = 0;
-@@ -972,6 +974,14 @@ static int rga2_MapUserMemory(struct pag
+@@ -969,6 +971,14 @@ static int rga2_MapUserMemory(struct page **pages, uint32_t *pageTable,
  			status = RGA2_OUT_OF_RESOURCES;
  			break;
  		}
@@ -71,7 +75,7 @@ ERROR: modpost: "__pte_offset_map_lock" [/openwrt/build_dir/target-aarch64_gener
  		pgd = pgd_offset(current->mm, (Memory + i) << PAGE_SHIFT);
  		if (pgd_none(*pgd) || unlikely(pgd_bad(*pgd))) {
  			pr_err("RGA2 failed to get pgd, result = %d, pageCount = %d\n",
-@@ -1016,6 +1026,7 @@ static int rga2_MapUserMemory(struct pag
+@@ -1013,6 +1023,7 @@ static int rga2_MapUserMemory(struct page **pages, uint32_t *pageTable,
  			status = RGA2_OUT_OF_RESOURCES;
  			break;
  		}
@@ -79,9 +83,11 @@ ERROR: modpost: "__pte_offset_map_lock" [/openwrt/build_dir/target-aarch64_gener
  		pfn = pte_pfn(*pte);
  		Address = ((pfn << PAGE_SHIFT) |
  			  (((unsigned long)((Memory + i) << PAGE_SHIFT)) & ~PAGE_MASK));
+diff --git a/drivers/video/rockchip/rga3/rga_mm.c b/drivers/video/rockchip/rga3/rga_mm.c
+index b130e6e..22d757c 100644
 --- a/drivers/video/rockchip/rga3/rga_mm.c
 +++ b/drivers/video/rockchip/rga3/rga_mm.c
-@@ -42,12 +42,14 @@ static int rga_get_user_pages_from_vma(s
+@@ -40,12 +40,14 @@ static int rga_get_user_pages_from_vma(struct page **pages, unsigned long Memory
  	struct vm_area_struct *vma;
  	spinlock_t *ptl;
  	pte_t *pte;
@@ -96,7 +102,7 @@ ERROR: modpost: "__pte_offset_map_lock" [/openwrt/build_dir/target-aarch64_gener
  	unsigned long pfn;
  
  	for (i = 0; i < pageCount; i++) {
-@@ -58,6 +60,13 @@ static int rga_get_user_pages_from_vma(s
+@@ -56,6 +58,13 @@ static int rga_get_user_pages_from_vma(struct page **pages, unsigned long Memory
  			break;
  		}
  
@@ -109,8 +115,8 @@ ERROR: modpost: "__pte_offset_map_lock" [/openwrt/build_dir/target-aarch64_gener
 +#else
  		pgd = pgd_offset(current_mm, (Memory + i) << PAGE_SHIFT);
  		if (pgd_none(*pgd) || unlikely(pgd_bad(*pgd))) {
- 			pr_err("page[%d] failed to get pgd\n", i);
-@@ -100,6 +109,7 @@ static int rga_get_user_pages_from_vma(s
+ 			rga_err("page[%d] failed to get pgd\n", i);
+@@ -98,6 +107,7 @@ static int rga_get_user_pages_from_vma(struct page **pages, unsigned long Memory
  			ret = RGA_OUT_OF_RESOURCES;
  			break;
  		}
@@ -118,3 +124,6 @@ ERROR: modpost: "__pte_offset_map_lock" [/openwrt/build_dir/target-aarch64_gener
  
  		pfn = pte_pfn(*pte);
  		pages[i] = pfn_to_page(pfn);
+-- 
+2.51.0
+

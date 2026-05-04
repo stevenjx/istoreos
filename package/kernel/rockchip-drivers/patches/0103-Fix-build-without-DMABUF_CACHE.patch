@@ -1,14 +1,15 @@
-From 0ff2e45a550a4c0e53acba343ba8340658966959 Mon Sep 17 00:00:00 2001
+From c47e6b5ae773c000d2993d293f5a9c45c2883b47 Mon Sep 17 00:00:00 2001
 From: jjm2473 <jjm2473@gmail.com>
 Date: Sat, 8 Feb 2025 15:16:45 +0800
 Subject: [PATCH] Fix build without DMABUF_CACHE
 
 ---
  drivers/video/rockchip/mpp/mpp_iommu.c       | 4 ++++
- drivers/video/rockchip/rga2/rga2_drv.c       | 4 ++++
  drivers/video/rockchip/rve/include/rve_drv.h | 4 ++++
- 3 files changed, 12 insertions(+)
+ 2 files changed, 8 insertions(+)
 
+diff --git a/drivers/video/rockchip/mpp/mpp_iommu.c b/drivers/video/rockchip/mpp/mpp_iommu.c
+index ff93d7f..4782b8f 100644
 --- a/drivers/video/rockchip/mpp/mpp_iommu.c
 +++ b/drivers/video/rockchip/mpp/mpp_iommu.c
 @@ -9,7 +9,11 @@
@@ -23,20 +24,8 @@ Subject: [PATCH] Fix build without DMABUF_CACHE
  #include <linux/dma-mapping.h>
  #include <linux/iommu.h>
  #include <linux/of.h>
---- a/drivers/video/rockchip/rga2/rga2_drv.c
-+++ b/drivers/video/rockchip/rga2/rga2_drv.c
-@@ -45,7 +45,11 @@
- 
- #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 4, 0))
- #include <linux/pm_runtime.h>
-+#ifdef CONFIG_DMABUF_CACHE
- #include <linux/dma-buf-cache.h>
-+#else
-+#include <linux/dma-buf.h>
-+#endif
- #endif
- 
- #include "rga2.h"
+diff --git a/drivers/video/rockchip/rve/include/rve_drv.h b/drivers/video/rockchip/rve/include/rve_drv.h
+index 9220b97..8ed9549 100644
 --- a/drivers/video/rockchip/rve/include/rve_drv.h
 +++ b/drivers/video/rockchip/rve/include/rve_drv.h
 @@ -13,7 +13,11 @@
@@ -51,3 +40,6 @@ Subject: [PATCH] Fix build without DMABUF_CACHE
  #include <linux/dma-mapping.h>
  #include <linux/err.h>
  #include <linux/fb.h>
+-- 
+2.51.0
+

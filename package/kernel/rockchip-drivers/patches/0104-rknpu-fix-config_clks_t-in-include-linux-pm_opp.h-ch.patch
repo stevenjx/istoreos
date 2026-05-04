@@ -1,4 +1,4 @@
-From 8596a7b1b4fcec5ffeb63966fca25855e99cd38d Mon Sep 17 00:00:00 2001
+From b781c53acc25fc6108ddd4577b61b281f71ea7d2 Mon Sep 17 00:00:00 2001
 From: jjm2473 <jjm2473@gmail.com>
 Date: Tue, 25 Feb 2025 13:49:38 +0800
 Subject: [PATCH] rknpu: fix config_clks_t in include/linux/pm_opp.h changed by
@@ -8,9 +8,11 @@ Subject: [PATCH] rknpu: fix config_clks_t in include/linux/pm_opp.h changed by
  drivers/rknpu/rknpu_devfreq.c | 7 +++++++
  1 file changed, 7 insertions(+)
 
+diff --git a/drivers/rknpu/rknpu_devfreq.c b/drivers/rknpu/rknpu_devfreq.c
+index d8db3a3..e67cf4e 100644
 --- a/drivers/rknpu/rknpu_devfreq.c
 +++ b/drivers/rknpu/rknpu_devfreq.c
-@@ -221,9 +221,16 @@ static int npu_opp_config_regulators(str
+@@ -266,9 +266,16 @@ static int npu_opp_config_regulators(struct device *dev,
  					      count, &rknpu_dev->opp_info);
  }
  
@@ -27,3 +29,6 @@ Subject: [PATCH] rknpu: fix config_clks_t in include/linux/pm_opp.h changed by
  {
  	struct rknpu_device *rknpu_dev = dev_get_drvdata(dev);
  
+-- 
+2.51.0
+

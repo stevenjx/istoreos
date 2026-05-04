@@ -1,4 +1,4 @@
-From 5afaf602d2dfa5f24b54a9699012439b1b3c205a Mon Sep 17 00:00:00 2001
+From 9cf07cb9ab42858f6b9171153a489b35602a3248 Mon Sep 17 00:00:00 2001
 From: jjm2473 <jjm2473@gmail.com>
 Date: Thu, 17 Apr 2025 20:04:38 +0800
 Subject: [PATCH] rga2: fix dma_buf api NS not import
@@ -17,6 +17,8 @@ ERROR: modpost: module rga2 uses symbol dma_buf_detach from namespace DMA_BUF, b
  drivers/video/rockchip/rga2/rga2_drv.c | 3 +++
  1 file changed, 3 insertions(+)
 
+diff --git a/drivers/video/rockchip/rga2/rga2_drv.c b/drivers/video/rockchip/rga2/rga2_drv.c
+index 8ef59a2..693e66b 100644
 --- a/drivers/video/rockchip/rga2/rga2_drv.c
 +++ b/drivers/video/rockchip/rga2/rga2_drv.c
 @@ -2287,3 +2287,6 @@ module_exit(rga2_exit);
@@ -27,3 +29,6 @@ ERROR: modpost: module rga2 uses symbol dma_buf_detach from namespace DMA_BUF, b
 +MODULE_IMPORT_NS(DMA_BUF);
 +#endif
 \ No newline at end of file
+-- 
+2.51.0
+

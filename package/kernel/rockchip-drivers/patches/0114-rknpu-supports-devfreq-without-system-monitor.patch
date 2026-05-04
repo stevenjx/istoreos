@@ -1,16 +1,17 @@
-From 3c24ad9f62158110cbf099987c60b217dbb96bc7 Mon Sep 17 00:00:00 2001
+From 5889e51d75610cc1a66585dcfa68dfe869464f5d Mon Sep 17 00:00:00 2001
 From: jjm2473 <jjm2473@gmail.com>
 Date: Mon, 15 Sep 2025 15:12:08 +0800
 Subject: [PATCH] rknpu: supports devfreq without system monitor
 
 ---
  drivers/rknpu/rknpu_devfreq.c | 2 ++
- drivers/rknpu/rknpu_iommu.c   | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/rknpu/rknpu_devfreq.c b/drivers/rknpu/rknpu_devfreq.c
+index 71df338..c4624ef 100644
 --- a/drivers/rknpu/rknpu_devfreq.c
 +++ b/drivers/rknpu/rknpu_devfreq.c
-@@ -91,6 +91,7 @@ static int rk3576_npu_set_read_margin(st
+@@ -91,6 +91,7 @@ static int rk3576_npu_set_read_margin(struct device *dev,
  	regmap_write(opp_info->grf, 0x0c, 0x003c0000 | (rm << 2));
  	regmap_write(opp_info->grf, 0x10, 0x001c0000 | (rm << 2));
  
@@ -18,7 +19,7 @@ Subject: [PATCH] rknpu: supports devfreq without system monitor
  	return 0;
  }
  
-@@ -401,6 +402,7 @@ int rknpu_devfreq_init(struct rknpu_devi
+@@ -457,6 +458,7 @@ int rknpu_devfreq_init(struct rknpu_device *rknpu_dev)
  	if (IS_ERR(rknpu_dev->mdev_info)) {
  		dev_dbg(dev, "without system monitor\n");
  		rknpu_dev->mdev_info = NULL;
@@ -26,14 +27,6 @@ Subject: [PATCH] rknpu: supports devfreq without system monitor
  	}
  
  	rknpu_dev->current_freq = clk_get_rate(rknpu_dev->clks[0].clk);
---- a/drivers/rknpu/rknpu_iommu.c
-+++ b/drivers/rknpu/rknpu_iommu.c
-@@ -425,7 +425,7 @@ int rknpu_iommu_switch_domain(struct rkn
- {
- 	struct iommu_domain *src_domain = NULL;
- 	struct iommu_domain *dst_domain = NULL;
--	struct bus_type *bus = NULL;
-+	const struct bus_type *bus = NULL;
- 	int src_domain_id = 0;
- 	int ret = -EINVAL;
- 
+-- 
+2.51.0
+

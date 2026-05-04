@@ -45,15 +45,15 @@ Signed-off-by: Lee Jones <lee@kernel.org>
  #include <linux/interrupt.h>
  #include <linux/mfd/rk808.h>
  #include <linux/mfd/core.h>
-@@ -604,6 +605,7 @@ int rk8xx_probe(struct device *dev, int
- 	int lp_off_time, pwron_key = 0;
- 	u32 val;
+@@ -602,6 +603,7 @@ int rk8xx_probe(struct device *dev, int
+ 	const struct mfd_cell *cells;
+ 	int dual_support = 0;
  	int nr_pre_init_regs;
 +	u32 rst_fun = 0;
  	int nr_cells;
  	int ret;
  	int i;
-@@ -632,6 +634,16 @@ int rk8xx_probe(struct device *dev, int
+@@ -629,6 +631,16 @@ int rk8xx_probe(struct device *dev, int
  		cells = rk806s;
  		nr_cells = ARRAY_SIZE(rk806s);
  		dual_support = IRQF_SHARED;
@@ -69,10 +69,10 @@ Signed-off-by: Lee Jones <lee@kernel.org>
 +					     "Failed to configure requested restart/reset behavior\n");
  		break;
  	case RK808_ID:
- 		pwron_key = RK808_DEVCTRL_REG;
+ 		rk808->regmap_irq_chip = &rk808_irq_chip;
 --- a/include/linux/mfd/rk808.h
 +++ b/include/linux/mfd/rk808.h
-@@ -675,6 +675,8 @@ enum rk806_pin_dr_sel {
+@@ -670,6 +670,8 @@ enum rk806_pin_dr_sel {
  #define RK806_INT_POL_H			BIT(1)
  #define RK806_INT_POL_L			0
  

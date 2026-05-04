@@ -2,10 +2,10 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rockchip-drivers
-PKG_VERSION:=24.11.2
-PKG_RELEASE:=3
+PKG_VERSION:=25.9.1
+PKG_RELEASE:=1
 
-PKG_HASH:=92a837b8ea38adbd32f2879561322f247fa6606e3d0abe4dd73eb738200a1897
+PKG_HASH:=27741f54bb17542ade1a0d6a0118591e2a678f5759394a0f29fab39d5b5edc0d
 PKG_SOURCE_URL_FILE:=v$(PKG_VERSION).tar.gz
 PKG_SOURCE:=rockchip-drivers-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/jjm2473/rockchip-drivers/archive/refs/tags/
@@ -123,6 +123,18 @@ define KernelPackage/rknpu/install
 	$(LN) ../modules.d/$(filter-out 0-,$(word 1,$(AUTOLOAD))-)$$(NAME) $(1)/etc/modules-pending.d/$$(NAME)
 endef
 
+# there is not a standalone cec.ko, so use that provided by drm-rockchip
+define KernelPackage/rockchip-hdmirx
+  SUBMENU:=Video Support
+  TITLE:=Rockchip HDMI Receiver Vendor Driver
+  DEPENDS:=@TARGET_rockchip kmod-video-core +kmod-video-dma-contig +kmod-video-dv-timings \
+    +kmod-rockchip-sip +kmod-rockchip-system-monitor +kmod-drm-rockchip
+  FILES:= \
+	$(PKG_BUILD_DIR)/drivers/media/platform/rockchip/hdmirx/rockchip-hdmirx-class.ko \
+	$(PKG_BUILD_DIR)/drivers/media/platform/rockchip/hdmirx/rockchip-hdmirx.ko
+  AUTOLOAD:=$(call AutoProbe,rockchip-hdmirx)
+endef
+
 config-y:= CPU_RK3568 \
 	CPU_RK3588 \
 	CPU_RK3528 \
@@ -178,6 +190,12 @@ ifdef CONFIG_PACKAGE_kmod-rknpu
 	ROCKCHIP_RKNPU_FENCE
 endif
 
+ifdef CONFIG_PACKAGE_kmod-rockchip-hdmirx
+  config-m += \
+	VIDEO_ROCKCHIP_HDMIRX_CLASS \
+	VIDEO_ROCKCHIP_HDMIRX
+endif
+
 EXTRA_CFLAGS:=-I$(PKG_BUILD_DIR)/include -DBUILD_OPENWRT
 
 EXTRA_CFLAGS+=$(foreach opt,$(config-y),-DCONFIG_$(opt)=1)
@@ -200,7 +218,8 @@ $(eval $(call KernelPackage,rockchip-ipa))
 $(eval $(call KernelPackage,rockchip-pvtm))
 $(eval $(call KernelPackage,rockchip-opp-select))
 $(eval $(call KernelPackage,rockchip-system-monitor))
-$(eval $(call KernelPackage,rga2))
+#$(eval $(call KernelPackage,rga2))
 $(eval $(call KernelPackage,rga3))
 $(eval $(call KernelPackage,rk_vcodec))
 $(eval $(call KernelPackage,rknpu))
+$(eval $(call KernelPackage,rockchip-hdmirx))

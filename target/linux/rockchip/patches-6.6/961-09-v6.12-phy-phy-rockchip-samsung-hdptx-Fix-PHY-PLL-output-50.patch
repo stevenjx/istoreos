@@ -23,11 +23,9 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
  drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-index 4c713616963a..be504439c767 100644
 --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-@@ -291,6 +291,8 @@ static const struct ropll_config ropll_tmds_cfg[] = {
+@@ -291,6 +291,8 @@ static const struct ropll_config ropll_t
  	  1, 1, 0, 0x20, 0x0c, 1, 0x0e, 0, 0, },
  	{ 65000000ULL, 162, 162, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 54, 0, 16, 4, 1,
  	  1, 1, 0, 0x20, 0x0c, 1, 0x0e, 0, 0, },
@@ -36,6 +34,3 @@ index 4c713616963a..be504439c767 100644
  	{ 33750000ULL, 0x70, 0x70, 1, 1, 0xf, 1, 1, 1, 1, 1, 1, 1, 0x2, 0, 0x01, 5,
  	  1, 1, 1, 0, 0x20, 0x0c, 1, 0x0e, 0, 0, },
  	{ 40000000ULL, 100, 100, 1, 1, 11, 1, 1, 0, 1, 0, 1, 1, 0x9, 0, 0x05, 0,
--- 
-2.51.0
-

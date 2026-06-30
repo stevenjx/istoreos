@@ -20,8 +20,6 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
  drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-index d793454a7512..2e1c50b2895d 100644
 --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 @@ -192,6 +192,7 @@
@@ -32,7 +30,7 @@ index d793454a7512..2e1c50b2895d 100644
  #define HDMI20_MAX_RATE			600000000
  
  struct lcpll_config {
-@@ -837,7 +838,7 @@ static int rk_hdptx_ropll_tmds_mode_config(struct rk_hdptx_phy *hdptx,
+@@ -837,7 +838,7 @@ static int rk_hdptx_ropll_tmds_mode_conf
  
  	regmap_write(hdptx->regmap, LNTOP_REG(0200), 0x06);
  
@@ -41,6 +39,3 @@ index d793454a7512..2e1c50b2895d 100644
  		/* For 1/40 bitrate clk */
  		rk_hdptx_multi_reg_write(hdptx, rk_hdtpx_tmds_lntop_highbr_seq);
  	} else {
--- 
-2.51.0
-

@@ -10,7 +10,7 @@ Signed-off-by: jjm2473 <jjm2473@gmail.com>
 
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
-@@ -941,10 +941,6 @@ struct task_struct {
+@@ -944,10 +944,6 @@ struct task_struct {
  #ifdef CONFIG_BLK_CGROUP
  	unsigned			use_memdelay:1;
  #endif
@@ -21,7 +21,7 @@ Signed-off-by: jjm2473 <jjm2473@gmail.com>
  #ifdef CONFIG_PAGE_OWNER
  	/* Used by page_owner=on to detect recursion in page tracking. */
  	unsigned			in_page_owner:1;
-@@ -1204,10 +1200,6 @@ struct task_struct {
+@@ -1207,10 +1203,6 @@ struct task_struct {
  	kernel_siginfo_t		*last_siginfo;
  
  	struct task_io_accounting	ioac;
@@ -32,7 +32,7 @@ Signed-off-by: jjm2473 <jjm2473@gmail.com>
  #ifdef CONFIG_TASK_XACCT
  	/* Accumulated RSS usage: */
  	u64				acct_rss_mem1;
-@@ -1528,6 +1520,13 @@ struct task_struct {
+@@ -1535,6 +1527,13 @@ struct task_struct {
  	struct user_event_mm		*user_event_mm;
  #endif
  

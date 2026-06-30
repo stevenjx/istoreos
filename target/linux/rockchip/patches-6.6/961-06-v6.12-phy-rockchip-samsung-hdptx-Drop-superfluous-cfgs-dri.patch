@@ -19,8 +19,6 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
  drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 12 +++++-------
  1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-index 4e082ab31cae..de333b743810 100644
 --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 @@ -245,10 +245,7 @@ struct rk_hdptx_phy {
@@ -34,7 +32,7 @@ index 4e082ab31cae..de333b743810 100644
  	struct phy *phy;
  	struct clk_bulk_data *clks;
  	int nr_clks;
-@@ -1036,6 +1033,7 @@ static int rk_hdptx_phy_runtime_resume(struct device *dev)
+@@ -1036,6 +1033,7 @@ static int rk_hdptx_phy_runtime_resume(s
  
  static int rk_hdptx_phy_probe(struct platform_device *pdev)
  {
@@ -42,7 +40,7 @@ index 4e082ab31cae..de333b743810 100644
  	struct phy_provider *phy_provider;
  	struct device *dev = &pdev->dev;
  	struct rk_hdptx_phy *hdptx;
-@@ -1054,14 +1052,14 @@ static int rk_hdptx_phy_probe(struct platform_device *pdev)
+@@ -1054,14 +1052,14 @@ static int rk_hdptx_phy_probe(struct pla
  		return dev_err_probe(dev, PTR_ERR(regs),
  				     "Failed to ioremap resource\n");
  
@@ -61,6 +59,3 @@ index 4e082ab31cae..de333b743810 100644
  			hdptx->phy_id = id;
  			break;
  		}
--- 
-2.51.0
-

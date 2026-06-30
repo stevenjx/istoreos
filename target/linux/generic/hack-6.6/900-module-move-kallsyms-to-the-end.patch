@@ -53,7 +53,7 @@ for better compatible
  #define MODULE_ARCH_INIT {}
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -1552,6 +1552,16 @@ static void __layout_sections(struct mod
+@@ -1559,6 +1559,16 @@ static void __layout_sections(struct mod
  			if (WARN_ON_ONCE(type == MOD_INVALID))
  				continue;
  
@@ -70,7 +70,7 @@ for better compatible
  			s->sh_entsize = module_get_offset_and_type(mod, type, s, i);
  			pr_debug("\t%s\n", sname);
  		}
-@@ -1872,11 +1882,19 @@ static int elf_validity_cache_copy(struc
+@@ -1879,11 +1889,19 @@ static int elf_validity_cache_copy(struc
  		goto no_exec;
  	}
  
@@ -90,7 +90,7 @@ for better compatible
  
  	info->index.mod = mod_idx;
  
-@@ -2279,11 +2297,19 @@ static int move_module(struct module *mo
+@@ -2286,11 +2304,19 @@ static int move_module(struct module *mo
  			 * end up copying over all modifications made to the
  			 * userspace copy of the entire struct module.
  			 */
@@ -110,7 +110,7 @@ for better compatible
  			memcpy(dest, (void *)shdr->sh_addr, shdr->sh_size);
  		}
  		/*
-@@ -2293,6 +2319,11 @@ static int move_module(struct module *mo
+@@ -2300,6 +2326,11 @@ static int move_module(struct module *mo
  		 * minted official memory area.
  		 */
  		shdr->sh_addr = (unsigned long)dest;

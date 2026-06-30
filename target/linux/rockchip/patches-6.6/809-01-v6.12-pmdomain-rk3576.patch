@@ -16,7 +16,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 
 --- a/drivers/pmdomain/rockchip/pm-domains.c
 +++ b/drivers/pmdomain/rockchip/pm-domains.c
-@@ -32,6 +32,7 @@
+@@ -34,6 +34,7 @@
  #include <dt-bindings/power/rk3368-power.h>
  #include <dt-bindings/power/rk3399-power.h>
  #include <dt-bindings/power/rk3568-power.h>
@@ -24,7 +24,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
  #include <dt-bindings/power/rk3588-power.h>
  
  struct rockchip_domain_info {
-@@ -186,6 +187,9 @@ static void rockchip_pmu_unlock(struct r
+@@ -188,6 +189,9 @@ static void rockchip_pmu_unlock(struct r
  #define DOMAIN_RK3568(name, pwr, req, wakeup)		\
  	DOMAIN_M(name, pwr, pwr, req, req, req, wakeup)
  
@@ -34,7 +34,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
  /*
   * Dynamic Memory Controller may need to coordinate with us -- see
   * rockchip_pmu_block().
-@@ -1252,6 +1256,28 @@ static const struct rockchip_domain_info
+@@ -1247,6 +1251,28 @@ static const struct rockchip_domain_info
  	[RK3568_PD_PIPE]	= DOMAIN_RK3568("pipe", BIT(8), BIT(11), false),
  };
  
@@ -63,7 +63,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
  static const struct rockchip_domain_info rk3588_pm_domains[] = {
  	[RK3588_PD_GPU]		= DOMAIN_RK3588("gpu",     0x0, BIT(0),  0,       0x0, 0,       BIT(1),  0x0, BIT(0),  BIT(0),  false),
  	[RK3588_PD_NPU]		= DOMAIN_RK3588("npu",     0x0, BIT(1),  BIT(1),  0x0, 0,       0,       0x0, 0,       0,       false),
-@@ -1430,6 +1456,21 @@ static const struct rockchip_pmu_info rk
+@@ -1425,6 +1451,21 @@ static const struct rockchip_pmu_info rk
  	.domain_info = rk3568_pm_domains,
  };
  
@@ -85,7 +85,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
  static const struct rockchip_pmu_info rk3588_pmu = {
  	.pwr_offset = 0x14c,
  	.status_offset = 0x180,
-@@ -1506,6 +1547,10 @@ static const struct of_device_id rockchi
+@@ -1501,6 +1542,10 @@ static const struct of_device_id rockchi
  		.data = (void *)&rk3568_pmu,
  	},
  	{

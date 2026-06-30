@@ -15,8 +15,6 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
  .../phy/rockchip/phy-rockchip-samsung-hdptx.c | 31 -------------------
  1 file changed, 31 deletions(-)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-index 6a062e509a01..59d7ced84032 100644
 --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 @@ -195,37 +195,6 @@
@@ -57,6 +55,3 @@ index 6a062e509a01..59d7ced84032 100644
  struct ropll_config {
  	u32 bit_rate;
  	u8 pms_mdiv;
--- 
-2.51.0
-

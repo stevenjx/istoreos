@@ -21,11 +21,9 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
  drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-index be504439c767..bdc52495774d 100644
 --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-@@ -347,9 +347,7 @@ static const struct reg_sequence rk_hdtpx_common_cmn_init_seq[] = {
+@@ -347,9 +347,7 @@ static const struct reg_sequence rk_hdtp
  	REG_SEQ0(CMN_REG(0043), 0x00),
  	REG_SEQ0(CMN_REG(0044), 0x46),
  	REG_SEQ0(CMN_REG(0045), 0x24),
@@ -35,7 +33,7 @@ index be504439c767..bdc52495774d 100644
  	REG_SEQ0(CMN_REG(0049), 0xfa),
  	REG_SEQ0(CMN_REG(004a), 0x08),
  	REG_SEQ0(CMN_REG(004b), 0x00),
-@@ -422,6 +420,8 @@ static const struct reg_sequence rk_hdtpx_tmds_cmn_init_seq[] = {
+@@ -422,6 +420,8 @@ static const struct reg_sequence rk_hdtp
  	REG_SEQ0(CMN_REG(0034), 0x00),
  	REG_SEQ0(CMN_REG(003d), 0x40),
  	REG_SEQ0(CMN_REG(0042), 0x78),
@@ -44,6 +42,3 @@ index be504439c767..bdc52495774d 100644
  	REG_SEQ0(CMN_REG(004e), 0x34),
  	REG_SEQ0(CMN_REG(005c), 0x25),
  	REG_SEQ0(CMN_REG(005e), 0x4f),
--- 
-2.51.0
-

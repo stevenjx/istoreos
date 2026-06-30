@@ -86,7 +86,7 @@ Subject: [PATCH] drivers/ata: sata pmp supports led trigger
  /**
   *	ata_build_rw_tf - Build ATA taskfile for given read/write request
   *	@qc: Metadata associated with the taskfile to build
-@@ -3214,9 +3246,15 @@ static void sata_print_link_status(struc
+@@ -3232,9 +3264,15 @@ static void sata_print_link_status(struc
  		tmp = (sstatus >> 4) & 0xf;
  		ata_link_info(link, "SATA link up %s (SStatus %X SControl %X)\n",
  			      sata_spd_string(tmp), sstatus, scontrol);
@@ -102,7 +102,7 @@ Subject: [PATCH] drivers/ata: sata pmp supports led trigger
  	}
  }
  
-@@ -4816,6 +4854,10 @@ void __ata_qc_complete(struct ata_queued
+@@ -4834,6 +4872,10 @@ void __ata_qc_complete(struct ata_queued
  	ata_led_act(ap);
  #endif
  
@@ -113,7 +113,7 @@ Subject: [PATCH] drivers/ata: sata pmp supports led trigger
  	/* clear exclusive status */
  	if (unlikely(qc->flags & ATA_QCFLAG_CLEAR_EXCL &&
  		     ap->excl_link == link))
-@@ -5456,6 +5498,11 @@ void ata_link_init(struct ata_port *ap,
+@@ -5480,6 +5522,11 @@ void ata_link_init(struct ata_port *ap,
  	link->active_tag = ATA_TAG_POISON;
  	link->hw_sata_spd_limit = UINT_MAX;
  
@@ -210,7 +210,7 @@ Subject: [PATCH] drivers/ata: sata pmp supports led trigger
  #define DRV_NAME	"libata"
  #define DRV_VERSION	"3.00"	/* must be exactly four chars */
  
-@@ -236,4 +240,8 @@ static inline void zpodd_disable_run_wak
+@@ -237,4 +241,8 @@ static inline void zpodd_disable_run_wak
  static inline void zpodd_post_poweron(struct ata_device *dev) {}
  #endif /* CONFIG_SATA_ZPODD */
  

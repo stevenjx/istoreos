@@ -128,7 +128,7 @@ linux/sched.h: move tracing to the end of struct
  	struct mod_kallsyms __rcu *kallsyms;
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
-@@ -1405,11 +1405,6 @@ struct task_struct {
+@@ -1408,11 +1408,6 @@ struct task_struct {
  	atomic_t			tracing_graph_pause;
  #endif
  
@@ -140,7 +140,7 @@ linux/sched.h: move tracing to the end of struct
  #ifdef CONFIG_KCOV
  	/* See kernel/kcov.c for more details. */
  
-@@ -1509,13 +1504,6 @@ struct task_struct {
+@@ -1516,13 +1511,6 @@ struct task_struct {
  	int				mce_count;
  #endif
  
@@ -154,7 +154,7 @@ linux/sched.h: move tracing to the end of struct
  #ifdef CONFIG_ARCH_HAS_PARANOID_L1D_FLUSH
  	/*
  	 * If L1D flush is supported on mm context switch
-@@ -1540,6 +1528,18 @@ struct task_struct {
+@@ -1547,6 +1535,18 @@ struct task_struct {
  	struct user_event_mm		*user_event_mm;
  #endif
  

@@ -19,11 +19,9 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
  drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 9 +++++----
  1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-index bdc52495774d..47c2a3811685 100644
 --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-@@ -515,13 +515,9 @@ static const struct reg_sequence rk_hdtpx_common_lane_init_seq[] = {
+@@ -515,13 +515,9 @@ static const struct reg_sequence rk_hdtp
  
  static const struct reg_sequence rk_hdtpx_tmds_lane_init_seq[] = {
  	REG_SEQ0(LANE_REG(0312), 0x00),
@@ -37,7 +35,7 @@ index bdc52495774d..47c2a3811685 100644
  	REG_SEQ0(LANE_REG(0303), 0x2f),
  	REG_SEQ0(LANE_REG(0403), 0x2f),
  	REG_SEQ0(LANE_REG(0503), 0x2f),
-@@ -534,6 +530,11 @@ static const struct reg_sequence rk_hdtpx_tmds_lane_init_seq[] = {
+@@ -534,6 +530,11 @@ static const struct reg_sequence rk_hdtp
  	REG_SEQ0(LANE_REG(0406), 0x1c),
  	REG_SEQ0(LANE_REG(0506), 0x1c),
  	REG_SEQ0(LANE_REG(0606), 0x1c),
@@ -49,6 +47,3 @@ index bdc52495774d..47c2a3811685 100644
  };
  
  static bool rk_hdptx_phy_is_rw_reg(struct device *dev, unsigned int reg)
--- 
-2.51.0
-

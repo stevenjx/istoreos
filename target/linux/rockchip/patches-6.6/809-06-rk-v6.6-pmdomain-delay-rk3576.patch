@@ -90,7 +90,7 @@ mainly for fixing crash on `nputop` power up:
 
 --- a/drivers/pmdomain/rockchip/pm-domains.c
 +++ b/drivers/pmdomain/rockchip/pm-domains.c
-@@ -160,7 +160,7 @@ static void rockchip_pmu_unlock(struct r
+@@ -162,7 +162,7 @@ static void rockchip_pmu_unlock(struct r
  	.active_wakeup = wakeup,			\
  }
  
@@ -99,7 +99,7 @@ mainly for fixing crash on `nputop` power up:
  {							\
  	.name = _name,					\
  	.pwr_offset = p_offset,				\
-@@ -176,6 +176,7 @@ static void rockchip_pmu_unlock(struct r
+@@ -178,6 +178,7 @@ static void rockchip_pmu_unlock(struct r
  	.idle_mask = (idle),				\
  	.clk_ungate_mask = (g_mask),			\
  	.ack_mask = (ack),				\
@@ -107,7 +107,7 @@ mainly for fixing crash on `nputop` power up:
  	.active_wakeup = wakeup,			\
  }
  
-@@ -210,8 +211,8 @@ static void rockchip_pmu_unlock(struct r
+@@ -212,8 +213,8 @@ static void rockchip_pmu_unlock(struct r
  #define DOMAIN_RK3568(name, pwr, req, wakeup)		\
  	DOMAIN_M(name, pwr, pwr, req, req, req, wakeup)
  
@@ -118,7 +118,7 @@ mainly for fixing crash on `nputop` power up:
  
  /*
   * Dynamic Memory Controller may need to coordinate with us -- see
-@@ -1307,25 +1308,25 @@ static const struct rockchip_domain_info
+@@ -1302,25 +1303,25 @@ static const struct rockchip_domain_info
  };
  
  static const struct rockchip_domain_info rk3576_pm_domains[] = {

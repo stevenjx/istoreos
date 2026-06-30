@@ -11,7 +11,7 @@ uci -q batch <<-EOF >/dev/null
 EOF
 
 uci set dockerd.globals.data_root=/overlay/upper/opt/docker
-
+WAN_ZONE=
 if grep -qFw nas /proc/device-tree/chosen/default-firewall; then
     WAN_ZONE=`uci show firewall | grep -E '^firewall\.@zone\[[0-9]+\]\.name='"'wan'" | head -n1 | head -c -12`
     uci -q batch <<-EOF >/dev/null
@@ -40,6 +40,22 @@ else
             commit firewall
 EOF
     fi
+fi
+
+WWAN_PROTO=`uci -q get network.wwan.proto`
+if [ "none" = "$WWAN_PROTO" ]; then
+    uci -q batch <<-EOF >/dev/null
+        set network.wwan.proto='dhcp'
+        commit network
+EOF
+fi
+
+if [ -n "$WWAN_PROTO" ]; then
+    [ -n "$WAN_ZONE" ] || WAN_ZONE=`uci show firewall | grep -E '^firewall\.@zone\[[0-9]+\]\.name='"'wan'" | head -n1 | head -c -12`
+    uci -q batch <<-EOF >/dev/null
+        add_list ${WAN_ZONE}.network='wwan'
+        commit firewall
+EOF
 fi
 
 if ! grep -qFw router /proc/device-tree/chosen/default-firewall; then

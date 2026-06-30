@@ -28,7 +28,7 @@ Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 
 --- a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
 +++ b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
-@@ -1468,6 +1468,28 @@ put_child:
+@@ -1465,6 +1465,28 @@ put_child:
  	return ret;
  }
  
@@ -57,7 +57,7 @@ Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
  static int rk3588_usb2phy_tuning(struct rockchip_usb2phy *rphy)
  {
  	int ret;
-@@ -1763,6 +1785,54 @@ static const struct rockchip_usb2phy_cfg
+@@ -1760,6 +1782,54 @@ static const struct rockchip_usb2phy_cfg
  	{ /* sentinel */ }
  };
  
@@ -112,7 +112,7 @@ Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
  static const struct rockchip_usb2phy_cfg rk3568_phy_cfgs[] = {
  	{
  		.reg = 0xfe8a0000,
-@@ -1999,6 +2069,7 @@ static const struct of_device_id rockchi
+@@ -1996,6 +2066,7 @@ static const struct of_device_id rockchi
  	{ .compatible = "rockchip,rk3328-usb2phy", .data = &rk3328_phy_cfgs },
  	{ .compatible = "rockchip,rk3366-usb2phy", .data = &rk3366_phy_cfgs },
  	{ .compatible = "rockchip,rk3399-usb2phy", .data = &rk3399_phy_cfgs },

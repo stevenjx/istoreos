@@ -15,11 +15,9 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
  drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 10 ++++++----
  1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-index 2e1c50b2895d..6a062e509a01 100644
 --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-@@ -771,9 +771,7 @@ static int rk_hdptx_ropll_tmds_cmn_config(struct rk_hdptx_phy *hdptx,
+@@ -771,9 +771,7 @@ static int rk_hdptx_ropll_tmds_cmn_confi
  {
  	const struct ropll_config *cfg = NULL;
  	struct ropll_config rc = {0};
@@ -30,7 +28,7 @@ index 2e1c50b2895d..6a062e509a01 100644
  
  	for (i = 0; i < ARRAY_SIZE(ropll_tmds_cfg); i++)
  		if (rate == ropll_tmds_cfg[i].bit_rate) {
-@@ -828,7 +826,11 @@ static int rk_hdptx_ropll_tmds_cmn_config(struct rk_hdptx_phy *hdptx,
+@@ -828,7 +826,11 @@ static int rk_hdptx_ropll_tmds_cmn_confi
  	regmap_update_bits(hdptx->regmap, CMN_REG(0086), PLL_PCG_CLK_EN_MASK,
  			   FIELD_PREP(PLL_PCG_CLK_EN_MASK, 0x1));
  
@@ -43,6 +41,3 @@ index 2e1c50b2895d..6a062e509a01 100644
  }
  
  static int rk_hdptx_ropll_tmds_mode_config(struct rk_hdptx_phy *hdptx,
--- 
-2.51.0
-

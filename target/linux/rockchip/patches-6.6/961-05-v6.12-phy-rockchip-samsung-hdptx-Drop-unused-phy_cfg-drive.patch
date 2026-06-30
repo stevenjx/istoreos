@@ -15,8 +15,6 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
  drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-index 59d7ced84032..4e082ab31cae 100644
 --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 @@ -250,7 +250,6 @@ struct rk_hdptx_phy {
@@ -27,6 +25,3 @@ index 59d7ced84032..4e082ab31cae 100644
  	struct clk_bulk_data *clks;
  	int nr_clks;
  	struct reset_control_bulk_data rsts[RST_MAX];
--- 
-2.51.0
-

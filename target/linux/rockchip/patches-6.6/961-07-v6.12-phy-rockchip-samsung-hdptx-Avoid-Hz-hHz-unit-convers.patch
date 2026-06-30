@@ -22,8 +22,6 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
  .../phy/rockchip/phy-rockchip-samsung-hdptx.c | 79 +++++++++----------
  1 file changed, 39 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-index de333b743810..36b01a2e414b 100644
 --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 @@ -196,7 +196,7 @@
@@ -101,7 +99,7 @@ index de333b743810..36b01a2e414b 100644
  	  1, 0, 0x20, 0x0c, 1, 0x0e, 0, 0, },
  };
  
-@@ -659,10 +659,10 @@ static void rk_hdptx_phy_disable(struct rk_hdptx_phy *hdptx)
+@@ -659,10 +659,10 @@ static void rk_hdptx_phy_disable(struct
  	regmap_write(hdptx->grf, GRF_HDPTX_CON0, val);
  }
  
@@ -114,7 +112,7 @@ index de333b743810..36b01a2e414b 100644
  	unsigned long k = 0, lc, k_sub, lc_sub;
  	unsigned int fvco, sdc;
  	u32 mdiv, sdiv, n = 8;
-@@ -732,14 +732,14 @@ static bool rk_hdptx_phy_clk_pll_calc(unsigned int data_rate,
+@@ -732,14 +732,14 @@ static bool rk_hdptx_phy_clk_pll_calc(un
  }
  
  static int rk_hdptx_ropll_tmds_cmn_config(struct rk_hdptx_phy *hdptx,
@@ -131,7 +129,7 @@ index de333b743810..36b01a2e414b 100644
  			cfg = &ropll_tmds_cfg[i];
  			break;
  		}
-@@ -753,8 +753,8 @@ static int rk_hdptx_ropll_tmds_cmn_config(struct rk_hdptx_phy *hdptx,
+@@ -753,8 +753,8 @@ static int rk_hdptx_ropll_tmds_cmn_confi
  		}
  	}
  
@@ -142,7 +140,7 @@ index de333b743810..36b01a2e414b 100644
  		cfg->sdm_num_sign, cfg->sdm_num, cfg->sdm_deno);
  
  	rk_hdptx_pre_power_up(hdptx);
-@@ -793,19 +793,19 @@ static int rk_hdptx_ropll_tmds_cmn_config(struct rk_hdptx_phy *hdptx,
+@@ -793,19 +793,19 @@ static int rk_hdptx_ropll_tmds_cmn_confi
  
  	ret = rk_hdptx_post_enable_pll(hdptx);
  	if (!ret)
@@ -165,7 +163,7 @@ index de333b743810..36b01a2e414b 100644
  		/* For 1/40 bitrate clk */
  		rk_hdptx_multi_reg_write(hdptx, rk_hdtpx_tmds_lntop_highbr_seq);
  	} else {
-@@ -823,7 +823,7 @@ static int rk_hdptx_ropll_tmds_mode_config(struct rk_hdptx_phy *hdptx,
+@@ -823,7 +823,7 @@ static int rk_hdptx_ropll_tmds_mode_conf
  }
  
  static int rk_hdptx_phy_consumer_get(struct rk_hdptx_phy *hdptx,
@@ -174,7 +172,7 @@ index de333b743810..36b01a2e414b 100644
  {
  	u32 status;
  	int ret;
-@@ -881,7 +881,7 @@ static int rk_hdptx_phy_consumer_put(struct rk_hdptx_phy *hdptx, bool force)
+@@ -881,7 +881,7 @@ static int rk_hdptx_phy_consumer_put(str
  static int rk_hdptx_phy_power_on(struct phy *phy)
  {
  	struct rk_hdptx_phy *hdptx = phy_get_drvdata(phy);
@@ -183,7 +181,7 @@ index de333b743810..36b01a2e414b 100644
  	int ret;
  
  	/*
-@@ -889,10 +889,10 @@ static int rk_hdptx_phy_power_on(struct phy *phy)
+@@ -889,10 +889,10 @@ static int rk_hdptx_phy_power_on(struct
  	 * from the HDMI bridge driver until phy_configure_opts_hdmi
  	 * becomes available in the PHY API.
  	 */
@@ -197,7 +195,7 @@ index de333b743810..36b01a2e414b 100644
  
  	ret = rk_hdptx_phy_consumer_get(hdptx, rate);
  	if (ret)
-@@ -927,7 +927,7 @@ static int rk_hdptx_phy_clk_prepare(struct clk_hw *hw)
+@@ -927,7 +927,7 @@ static int rk_hdptx_phy_clk_prepare(stru
  {
  	struct rk_hdptx_phy *hdptx = to_rk_hdptx_phy(hw);
  
@@ -206,7 +204,7 @@ index de333b743810..36b01a2e414b 100644
  }
  
  static void rk_hdptx_phy_clk_unprepare(struct clk_hw *hw)
-@@ -948,18 +948,17 @@ static unsigned long rk_hdptx_phy_clk_recalc_rate(struct clk_hw *hw,
+@@ -948,18 +948,17 @@ static unsigned long rk_hdptx_phy_clk_re
  static long rk_hdptx_phy_clk_round_rate(struct clk_hw *hw, unsigned long rate,
  					unsigned long *parent_rate)
  {
@@ -227,7 +225,7 @@ index de333b743810..36b01a2e414b 100644
  		return -EINVAL;
  
  	return rate;
-@@ -970,7 +969,7 @@ static int rk_hdptx_phy_clk_set_rate(struct clk_hw *hw, unsigned long rate,
+@@ -970,7 +969,7 @@ static int rk_hdptx_phy_clk_set_rate(str
  {
  	struct rk_hdptx_phy *hdptx = to_rk_hdptx_phy(hw);
  
@@ -236,6 +234,3 @@ index de333b743810..36b01a2e414b 100644
  }
  
  static const struct clk_ops hdptx_phy_clk_ops = {
--- 
-2.51.0
-

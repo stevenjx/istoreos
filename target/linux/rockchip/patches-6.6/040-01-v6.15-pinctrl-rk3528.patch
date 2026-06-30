@@ -160,7 +160,7 @@ Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
  	case RK3568:
  	case RK3588:
  		pull_type = bank->pull_type[pin_num / 8];
-@@ -2792,6 +2905,7 @@ static bool rockchip_pinconf_pull_valid(
+@@ -2791,6 +2904,7 @@ static bool rockchip_pinconf_pull_valid(
  	case RK3328:
  	case RK3368:
  	case RK3399:
@@ -168,7 +168,7 @@ Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
  	case RK3568:
  	case RK3588:
  		return (pull != PIN_CONFIG_BIAS_PULL_PIN_DEFAULT);
-@@ -3917,6 +4031,49 @@ static struct rockchip_pin_ctrl rk3399_p
+@@ -3916,6 +4030,49 @@ static struct rockchip_pin_ctrl rk3399_p
  		.drv_calc_reg		= rk3399_calc_drv_reg_and_bit,
  };
  
@@ -218,7 +218,7 @@ Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
  static struct rockchip_pin_bank rk3568_pin_banks[] = {
  	PIN_BANK_IOMUX_FLAGS(0, 32, "gpio0", IOMUX_SOURCE_PMU | IOMUX_WIDTH_4BIT,
  					     IOMUX_SOURCE_PMU | IOMUX_WIDTH_4BIT,
-@@ -4010,6 +4167,8 @@ static const struct of_device_id rockchi
+@@ -4009,6 +4166,8 @@ static const struct of_device_id rockchi
  		.data = &rk3368_pin_ctrl },
  	{ .compatible = "rockchip,rk3399-pinctrl",
  		.data = &rk3399_pin_ctrl },

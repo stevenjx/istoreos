@@ -18,7 +18,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 
 --- a/drivers/pmdomain/rockchip/pm-domains.c
 +++ b/drivers/pmdomain/rockchip/pm-domains.c
-@@ -45,6 +45,7 @@ struct rockchip_domain_info {
+@@ -47,6 +47,7 @@ struct rockchip_domain_info {
  	bool active_wakeup;
  	int pwr_w_mask;
  	int req_w_mask;
@@ -26,7 +26,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
  	int mem_status_mask;
  	int repair_status_mask;
  	u32 pwr_offset;
-@@ -62,6 +63,7 @@ struct rockchip_pmu_info {
+@@ -64,6 +65,7 @@ struct rockchip_pmu_info {
  	u32 chain_status_offset;
  	u32 mem_status_offset;
  	u32 repair_status_offset;
@@ -34,7 +34,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
  
  	u32 core_pwrcnt_offset;
  	u32 gpu_pwrcnt_offset;
-@@ -314,6 +316,26 @@ static unsigned int rockchip_pmu_read_ac
+@@ -316,6 +318,26 @@ static unsigned int rockchip_pmu_read_ac
  	return val;
  }
  
@@ -61,7 +61,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
  static int rockchip_pmu_set_idle_request(struct rockchip_pm_domain *pd,
  					 bool idle)
  {
-@@ -623,6 +645,8 @@ static int rockchip_pd_power(struct rock
+@@ -625,6 +647,8 @@ static int rockchip_pd_power(struct rock
  			return ret;
  		}
  
@@ -70,7 +70,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
  		if (!power_on) {
  			rockchip_pmu_save_qos(pd);
  
-@@ -639,6 +663,7 @@ static int rockchip_pd_power(struct rock
+@@ -641,6 +665,7 @@ static int rockchip_pd_power(struct rock
  			rockchip_pmu_restore_qos(pd);
  		}
  

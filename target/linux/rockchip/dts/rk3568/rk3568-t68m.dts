@@ -33,16 +33,17 @@
 		stdout-path = "serial2:1500000n8";
 	};
 
-	gpio-keys {
-		compatible = "gpio-keys";
-		pinctrl-names = "default";
-		pinctrl-0 = <&reset_button_pin>;
+	adc-keys {
+		compatible = "adc-keys";
+		io-channels = <&saradc 0>;
+		io-channel-names = "buttons";
+		keyup-threshold-microvolt = <1750000>;
+		poll-interval = <100>;
 
-		button-reset {
-			label = "reset";
-			gpios = <&gpio3 RK_PB1 GPIO_ACTIVE_LOW>;
+		button-recovery {
+			label = "RECOVERY";
 			linux,code = <KEY_RESTART>;
-			debounce-interval = <50>;
+			press-threshold-microvolt = <0>;
 		};
 	};
 

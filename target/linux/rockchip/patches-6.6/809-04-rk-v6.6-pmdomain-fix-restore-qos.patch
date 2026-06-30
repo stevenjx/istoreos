@@ -12,7 +12,7 @@ Signed-off-by: Elaine Zhang <zhangqing@rock-chips.com>
 
 --- a/drivers/pmdomain/rockchip/pm-domains.c
 +++ b/drivers/pmdomain/rockchip/pm-domains.c
-@@ -91,6 +91,7 @@ struct rockchip_pm_domain {
+@@ -93,6 +93,7 @@ struct rockchip_pm_domain {
  	u32 *qos_save_regs[MAX_QOS_REGS_NUM];
  	int num_clks;
  	struct clk_bulk_data *clks;
@@ -20,7 +20,7 @@ Signed-off-by: Elaine Zhang <zhangqing@rock-chips.com>
  };
  
  struct rockchip_pmu {
-@@ -668,6 +669,7 @@ static int rockchip_pd_power(struct rock
+@@ -670,6 +671,7 @@ static int rockchip_pd_power(struct rock
  
  		if (!power_on) {
  			rockchip_pmu_save_qos(pd);
@@ -28,7 +28,7 @@ Signed-off-by: Elaine Zhang <zhangqing@rock-chips.com>
  
  			/* if powering down, idle request to NIU first */
  			rockchip_pmu_set_idle_request(pd, true);
-@@ -679,7 +681,8 @@ static int rockchip_pd_power(struct rock
+@@ -681,7 +683,8 @@ static int rockchip_pd_power(struct rock
  			/* if powering up, leave idle mode */
  			rockchip_pmu_set_idle_request(pd, false);
  

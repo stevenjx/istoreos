@@ -15,6 +15,7 @@ rockchip_setup_interfaces()
 	friendlyarm,nanopi-r2c-plus|\
 	friendlyarm,nanopi-r2s|\
 	friendlyarm,nanopi-r3s|\
+	friendlyarm,nanopi-r3s-lts|\
 	friendlyarm,nanopi-r4s|\
 	friendlyarm,nanopi-r4se|\
 	friendlyarm,nanopi-r4s-enterprise|\
@@ -49,7 +50,6 @@ rockchip_setup_interfaces()
 	friendlyarm,nanopi-r6s)
 		ucidef_set_interfaces_lan_wan 'eth0 eth2' 'eth1'
 		;;
-	linkease,easepi-r2|\
 	hinlink,opc-h68k|\
 	lunzn,fastrhino-r68s|\
 	lyt,t68m|\
@@ -67,6 +67,10 @@ rockchip_setup_interfaces()
 		;;
 	sinovoip,rk3568-bpi-r2pro)
 		ucidef_set_interfaces_lan_wan 'lan0 lan1 lan2 lan3' 'eth0'
+		;;
+	linkease,easepi-r2)
+		ucidef_set_interfaces_lan_wan 'eth1 eth2 eth3' 'eth0'
+		ucidef_set_interface "wwan" device "usb4g" metric "100" protocol "none"
 		;;
 	radxa,e24c)
 		ucidef_add_switch "switch0" \

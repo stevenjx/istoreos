@@ -19,9 +19,10 @@ on:
       - 'qhora-301w.config'
       - '.github/workflows/build-qhora-301w.yml'
 
+permissions:
+  contents: write
+
 env:
-  REPO_URL: https://github.com/stevenjx/istoreos
-  REPO_BRANCH: qhora-301w-24.10
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: qhora-301w.config
   DIY_P1_SH: diy-part1.sh
@@ -39,11 +40,16 @@ jobs:
     - name: Checkout Source
       uses: actions/checkout@v4
 
+    - name: Free Disk Space
+      run: |
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+        sudo docker image prune --all --force 2>/dev/null || true
+        df -h
+
     - name: Initialization Environment
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
         sudo -E apt-get -qq update
         sudo -E apt-get -qq install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
           bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
@@ -54,14 +60,12 @@ jobs:
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
-        sudo mkdir -p /workdir
-        sudo chown $USER:$GROUPS /workdir
 
     - name: Load Custom Feeds (diy-part1.sh)
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF feeds.conf.default
-        chmod +x $DIY_P1_SH
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+        [ -e "$FEEDS_CONF" ] && [ "$FEEDS_CONF" != "feeds.conf.default" ] && cp -f "$FEEDS_CONF" feeds.conf.default
+        chmod +x "$DIY_P1_SH"
+        ./"$DIY_P1_SH"
 
     - name: Update & Install Feeds
       run: |
@@ -71,9 +75,9 @@ jobs:
     - name: Load Custom Configuration (diy-part2.sh & config)
       run: |
         [ -e files ] && mv files package/base-files/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE .config
-        chmod +x $DIY_P2_SH
-        $GITHUB_WORKSPACE/$DIY_P2_SH
+        [ -e "$CONFIG_FILE" ] && cp -f "$CONFIG_FILE" .config
+        chmod +x "$DIY_P2_SH"
+        ./"$DIY_P2_SH"
         make defconfig
 
     - name: Download Package Dependencies
@@ -94,17 +98,17 @@ jobs:
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: Check Space Usage
-      if: (!cancelled())
+      if: steps.compile.outputs.status == 'success'
       run: df -hT
 
     - name: Organize Firmware Files & Extract Partitions
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true'
       run: |
         cd bin/targets/*/*
         rm -rf packages
         
-        # 针对 QHora-301W 自动提取 kernel 与 rootfs 镜像，方便 dd 刷机
+        # 针对 QHora-301W 自动提取 kernel 与 rootfs 镜像，方便底层 dd 刷机
         SYSUPGRADE_IMG=$(ls *qnap_301w*sysupgrade.bin 2>/dev/null | head -n 1)
         if [ -n "$SYSUPGRADE_IMG" ]; then
           echo "Found sysupgrade image: $SYSUPGRADE_IMG"
@@ -127,14 +131,14 @@ jobs:
 
     - name: Upload Firmware Directory
       uses: actions/upload-artifact@v4
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: steps.organize.outputs.status == 'success'
       with:
         name: iStoreOS_QHora301W${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: Generate Release Tag
       id: tag
-      if: (inputs.upload_release == 'true' || env.UPLOAD_RELEASE == 'true') && !cancelled()
+      if: steps.organize.outputs.status == 'success' && (inputs.upload_release == 'true' || env.UPLOAD_RELEASE == 'true')
       run: |
         echo "release_tag=QHora-301W-$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         echo "release_date=$(date +"%Y-%m-%d %H:%M")" >> $GITHUB_OUTPUT
@@ -142,7 +146,7 @@ jobs:
 
     - name: Upload to GitHub Release
       uses: softprops/action-gh-release@v2
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: steps.tag.outputs.status == 'success' && env.FIRMWARE != ''
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -152,7 +156,7 @@ jobs:
           ### QNAP QHora-301W 专属 iStoreOS 固件发布
 
           **固件特性：**
-          - 源码基准：iStoreOS 24.10 (Linux 6.6 内核)
+          - 源码基准：iStoreOS 24.10.4 (Linux 6.6 内核)
           - 目标平台：Qualcomm IPQ8072A (`qualcommax/ipq807x`)
           - 内核安全适配：精简内建驱动至模块化，防止原厂 U-Boot `inflate() returned -5` 溢出变砖
           - 网卡适配：内置 Aquantia AQR113C 万兆网卡驱动与固件支持

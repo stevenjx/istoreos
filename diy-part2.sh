@@ -30,7 +30,12 @@ KCFG="target/linux/qualcommax/ipq807x/config-default"
 if [ -f "$KCFG" ]; then
   echo "Adding NSS kernel config symbols for 6.6.141..."
   grep -q '^CONFIG_SKB_RECYCLER=' "$KCFG" || echo 'CONFIG_SKB_RECYCLER=y' >> "$KCFG"
-  grep -q 'SKB_RECYCLER_MULTI_CPU' "$KCFG" || echo '# CONFIG_SKB_RECYCLER_MULTI_CPU is not set' >> "$KCFG"
+  # MULTI_CPU must be enabled: skbuff_recycle.c defines
+  # skb_recycler_max_spare_skbs_core and the local `h` variable only inside
+  # CONFIG_SKB_RECYCLER_MULTI_CPU, but uses them unconditionally later.
+  # With this symbol off the kernel build fails with "undeclared" errors.
+  sed -i '/CONFIG_SKB_RECYCLER_MULTI_CPU/d' "$KCFG"
+  echo 'CONFIG_SKB_RECYCLER_MULTI_CPU=y' >> "$KCFG"
   grep -q 'SKB_RECYCLER_PREALLOC' "$KCFG" || echo '# CONFIG_SKB_RECYCLER_PREALLOC is not set' >> "$KCFG"
   grep -q '^CONFIG_SKB_RECYCLE_MAX_PREALLOC_SKBS=' "$KCFG" || echo 'CONFIG_SKB_RECYCLE_MAX_PREALLOC_SKBS=16384' >> "$KCFG"
   grep -q '^CONFIG_SKB_RECYCLE_SIZE=' "$KCFG" || echo 'CONFIG_SKB_RECYCLE_SIZE=2304' >> "$KCFG"

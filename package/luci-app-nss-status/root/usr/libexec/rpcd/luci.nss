@@ -113,8 +113,19 @@ local function gather_status()
 	-- CPU offload load
 	s.cpu_load = nss_cpu_load()
 
-	-- WiFi offload runtime parameter (0 = off, 1 = on)
+	-- WiFi offload state (0 = off, 1 = on)
+	-- Prefer the live kernel parameter; if ath11k is not loaded (or on a
+	-- non-NSS test machine), fall back to the persisted modules.d setting so
+	-- the UI still reflects the configured value after a toggle.
 	local offload = readline("/sys/module/ath11k/parameters/nss_offload")
+	if offload == nil then
+		local modfile = io.open("/etc/modules.d/ath11k", "r")
+		if modfile then
+			local content = modfile:read("*a") or ""
+			modfile:close()
+			offload = content:match("nss_offload=(%d+)")
+		end
+	end
 	s.wifi_offload = tonumber(offload or "0") or 0
 
 	-- Kernel / NSS firmware build info (written by mac80211 install hook)

@@ -1,0 +1,21 @@
+{
+	"admin/status/nss": {
+		"title": "NSS 加速",
+		"order": 15,
+		"action": {
+			"type": "view",
+			"path": "nss/status"
+		},
+		"depends": {
+			"acl": [ "luci-app-nss-status" ]
+		}
+	},
+	"admin/status/nss/settings": {
+		"title": "NSS 设置",
+		"order": 10,
+		"action": {
+			"type": "view",
+			"path": "nss/settings"
+		}
+	}
+}

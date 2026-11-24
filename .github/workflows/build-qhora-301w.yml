@@ -24,6 +24,7 @@ on:
       - 'target/linux/qualcommax/**'
       - 'target/linux/generic/**'
       - 'package/kernel/mac80211/**'
+      - 'package/luci-app-nss-status/**'
       - '.github/workflows/build-qhora-301w.yml'
 
 permissions:

@@ -1,0 +1,27 @@
+{
+	"luci-app-nss-status": {
+		"description": "Grant access to NSS hardware offload status and settings",
+		"read": {
+			"ubus": {
+				"luci.nss": [ "status" ]
+			},
+			"uci": [ "nss", "ecm" ],
+			"file": {
+				"/sys/kernel/debug/qca-nss-drv/*": [ "read" ],
+				"/sys/kernel/debug/ecm/*": [ "read" ],
+				"/sys/module/ath11k/parameters/nss_offload": [ "read" ],
+				"/etc/modules.d/ath11k": [ "read" ]
+			}
+		},
+		"write": {
+			"ubus": {
+				"luci.nss": [ "set_wifi_offload" ]
+			},
+			"uci": [ "nss", "ecm" ],
+			"file": {
+				"/sys/module/ath11k/parameters/nss_offload": [ "write" ],
+				"/etc/modules.d/ath11k": [ "write" ]
+			}
+		}
+	}
+}

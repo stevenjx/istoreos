@@ -286,22 +286,22 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  		goto err;
 --- a/net/core/net-procfs.c
 +++ b/net/core/net-procfs.c
-@@ -327,10 +327,12 @@ static int __net_init dev_proc_net_init(
+@@ -344,10 +344,12 @@ static int __net_init dev_proc_net_init(struct net *net)
  	if (!proc_create_net("dev", 0444, net->proc_net, &dev_seq_ops,
  			sizeof(struct seq_net_private)))
  		goto out;
 -	if (!proc_create_seq("softnet_stat", 0444, net->proc_net,
 +	if (!IS_ENABLED(CONFIG_PROC_STRIPPED) &&
-+			!proc_create_seq("softnet_stat", 0444, net->proc_net,
++		    !proc_create_seq("softnet_stat", 0444, net->proc_net,
  			 &softnet_seq_ops))
  		goto out_dev;
 -	if (!proc_create_net("ptype", 0444, net->proc_net, &ptype_seq_ops,
 +	if (!IS_ENABLED(CONFIG_PROC_STRIPPED) &&
-+			!proc_create_net("ptype", 0444, net->proc_net, &ptype_seq_ops,
- 			sizeof(struct seq_net_private)))
++		    !proc_create_net("ptype", 0444, net->proc_net, &ptype_seq_ops,
+ 			sizeof(struct ptype_iter_state)))
  		goto out_softnet;
  
-@@ -340,9 +342,11 @@ static int __net_init dev_proc_net_init(
+@@ -357,9 +359,11 @@ static int __net_init dev_proc_net_init(struct net *net)
  out:
  	return rc;
  out_ptype:
@@ -315,7 +315,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  out_dev:
  	remove_proc_entry("dev", net->proc_net);
  	goto out;
-@@ -352,8 +356,10 @@ static void __net_exit dev_proc_net_exit
+@@ -369,8 +373,10 @@ static void __net_exit dev_proc_net_exit(struct net *net)
  {
  	wext_proc_exit(net);
  

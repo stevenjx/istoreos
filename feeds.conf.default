@@ -6,3 +6,6 @@ src-git telephony https://github.com/openwrt/telephony.git;openwrt-24.10
 src-git store https://github.com/linkease/istore.git;main
 # argon, etc.
 src-git third https://github.com/jjm2473/openwrt-third.git;main
+# NSS offload stack (qosmio, NSS 12.5 / Linux 6.6) - for QHora-301W
+src-git nss_packages https://github.com/qosmio/nss-packages.git;NSS-12.5-K6.x
+src-git sqm_scripts_nss https://github.com/qosmio/sqm-scripts-nss.git

@@ -1,6 +1,8 @@
 # QNAP QHora-301W - iStoreOS 24.10.4 适配与自动化编译指南
 
-本项目为 QNAP QHora-301W 适配 iStoreOS 24.10.4（Linux 6.6 内核），提供专用的内核配置、防变砖策略与 GitHub Actions 云端自动编译工作流。
+本项目为 QNAP QHora-301W 适配 iStoreOS 24.10.4（Linux 6.6.141 内核），提供专用的内核配置、NSS 全功能硬件卸载栈、防变砖策略与 GitHub Actions 云端自动编译工作流。
+
+NSS 硬件卸载栈来自 qosmio/nss-packages（NSS-12.5-K6.x 分支）与 qosmio/openwrt-ipq（24.10-nss）内核补丁集，已适配 6.6.141。ath11k WiFi offload 代码已编译但运行时默认关闭（nss_offload=0），可在 `/etc/modules.d/ath11k` 中设为 1 后重启开启。
 
 ---
 

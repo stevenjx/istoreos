@@ -51,19 +51,34 @@ local function read_stats_file(path)
 	return out
 end
 
+-- Iterate a directory safely: nixio.fs.dir() returns a plain iterator
+-- function without a :close() method, so never call one on it (doing so
+-- throws and aborts the whole rpcd call, blanking the status page).
+local function list_dir(path)
+	local out = {}
+	local ok, iter = pcall(fs.dir, path)
+	if not ok or not iter then return out end
+	for entry in iter do
+		if entry ~= "." and entry ~= ".." then
+			out[#out + 1] = entry
+		end
+	end
+	return out
+end
+
 -- Sum selected counters from cpu_load_ubi to give a quick "is NSS doing work" number.
 local function nss_cpu_load()
-	local root = "/sys/kernel/debug/qca-nss-drv/stats/cpu_load_ubi"
 	local load = {}
-	local dir = fs.dir(root)
-	if dir then
-		for entry in dir do
-			if entry ~= "." and entry ~= ".." then
-				local v = readline(root .. "/" .. entry)
-				if v then load[entry] = v end
-			end
+	for _, root in ipairs({
+		"/sys/kernel/debug/qca-nss-drv/stats/cpu_load_ubi",
+		"/sys/kernel/debug/qca-nss-drv/stats/cpu_load",
+	}) do
+		local any = false
+		for _, entry in ipairs(list_dir(root)) do
+			local v = readline(root .. "/" .. entry)
+			if v then load[entry] = v; any = true end
 		end
-		dir:close()
+		if any then break end
 	end
 	return load
 end
@@ -88,25 +103,41 @@ local function gather_status()
 		s.modules[m] = module_loaded(m)
 	end
 
-	-- Firmware version hint from the NSS debugfs project node (if present)
-	local project = readline("/sys/kernel/debug/qca-nss-drv/project/version")
-	   or readline("/sys/kernel/debug/qca-nss-drv/stats/project/version")
-	s.fw_version = project or "unknown"
+	-- Firmware version: try the common debugfs locations used by nss-drv.
+	s.fw_version = "unknown"
+	for _, p in ipairs({
+		"/sys/kernel/debug/qca-nss-drv/project/version",
+		"/sys/kernel/debug/qca-nss-drv/stats/project/version",
+		"/sys/kernel/debug/qca-nss-drv/version",
+	}) do
+		local v = readline(p)
+		if v and v ~= "" then s.fw_version = v; break end
+	end
 
-	-- ECM readiness and connection count
-	s.ecm_ready = file_exists("/sys/kernel/debug/ecm/ecm_state/state_dev_major")
+	-- ECM readiness and active connection count.
+	-- ecm_db exposes ecm_db/ecm_db (summary) and counts conn+mapping+host;
+	-- fall back to counting connection lines if only the per-entry listing exists.
+	s.ecm_ready = file_exists("/sys/kernel/debug/ecm/ecm_db") or
+	              file_exists("/sys/kernel/debug/ecm/ecm_state")
 	s.ecm_connections = 0
 	if s.ecm_ready then
-		local f = io.open("/sys/kernel/debug/ecm/ecm_state/ecm_state", "r")
+		local f = io.open("/sys/kernel/debug/ecm/ecm_db/ecm_db", "r")
+		if not f then f = io.open("/sys/kernel/debug/ecm/ecm_state/ecm_state", "r") end
 		if f then
-			local content = f:read("*a")
+			local content = f:read("*a") or ""
 			f:close()
-			-- ECM state file lists entries; count non-empty lines as a rough proxy
-			local n = 0
-			for line in (content or ""):gmatch("[^\n]+") do
-				if #line > 0 then n = n + 1 end
+			-- Look for an explicit "Connections: N" style field first.
+			local n = content:match("[Cc]onnections?%s*[:=]%s*(%d+)")
+			if n then
+				s.ecm_connections = tonumber(n) or 0
+			else
+				-- Otherwise each non-empty line represents one tracked entry.
+				local c = 0
+				for line in content:gmatch("[^\n]+") do
+					if line:match("%S") then c = c + 1 end
+				end
+				s.ecm_connections = c
 			end
-			s.ecm_connections = n
 		end
 	end
 
@@ -154,14 +185,19 @@ local methods = {
 					f:close()
 				end
 			end
-			-- Persist across reboot
-			local modfile = "/etc/modules.d/ath11k"
+			-- Persist across reboot via /etc/modules.d/ath11k
+			local moddir = "/etc/modules.d"
+			if not file_exists(moddir) then
+				os.execute("mkdir -p " .. moddir)
+			end
+			local modfile = moddir .. "/ath11k"
 			local content = ""
 			local f = io.open(modfile, "r")
 			if f then content = f:read("*a") or ""; f:close() end
 			if content:match("nss_offload") then
 				content = content:gsub("nss_offload=%d+", "nss_offload=" .. want)
 			else
+				-- Keep any pre-existing options on their own line, prepend ours.
 				content = "ath11k nss_offload=" .. want .. " frame_mode=2\n" .. content
 			end
 			local w = io.open(modfile, "w")

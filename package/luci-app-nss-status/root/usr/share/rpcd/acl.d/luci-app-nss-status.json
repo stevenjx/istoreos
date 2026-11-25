@@ -10,7 +10,9 @@
 				"/sys/kernel/debug/qca-nss-drv/*": [ "read" ],
 				"/sys/kernel/debug/ecm/*": [ "read" ],
 				"/sys/module/ath11k/parameters/nss_offload": [ "read" ],
-				"/etc/modules.d/ath11k": [ "read" ]
+				"/etc/modules.d/ath11k": [ "read" ],
+				"/etc/ipq_release": [ "read" ],
+				"/proc/modules": [ "read" ]
 			}
 		},
 		"write": {

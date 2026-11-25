@@ -90,6 +90,27 @@ jobs:
         chmod +x "$DIY_P2_SH"
         ./"$DIY_P2_SH"
         make defconfig
+        # defconfig may drop hidden NSS_DRV_*_ENABLE bools that the DT
+        # declares. Re-apply them after defconfig and re-run defconfig so the
+        # generated .config keeps them (otherwise qca-nss-drv is built with
+        # those datapath features compiled out).
+        SYMS="BRIDGE VLAN IPV6 PPPOE PPTP L2TP GRE GRE_REDIR GRE_TUNNEL VXLAN PVXLAN SHAPER IGS MATCH MIRROR MAPT CRYPTO IPSEC TLS DTLS CAPWAP CLMAP QVPN TUN6RD TUNIPIP6 UDP_ST PORTID IPV4_REASM IPV6_REASM WIFIOFFLOAD VIRT_IF LAG"
+        if [ -x scripts/config ]; then
+          for s in $SYMS; do
+            ./scripts/config --file .config --set-val "CONFIG_NSS_DRV_${s}_ENABLE" y || true
+          done
+          ./scripts/config --file .config --set-val CONFIG_NSS_MEM_PROFILE_HIGH y || true
+        else
+          echo "scripts/config missing, falling back to sed"
+          for s in $SYMS; do
+            sed -i "/^CONFIG_NSS_DRV_${s}_ENABLE=/d;/^# CONFIG_NSS_DRV_${s}_ENABLE is not set/d" .config
+            echo "CONFIG_NSS_DRV_${s}_ENABLE=y" >> .config
+          done
+          sed -i "/^CONFIG_NSS_MEM_PROFILE_HIGH=/d" .config
+          echo "CONFIG_NSS_MEM_PROFILE_HIGH=y" >> .config
+        fi
+        make defconfig
+        echo "NSS_DRV flags enabled: $(grep -c '^CONFIG_NSS_DRV_.*_ENABLE=y' .config)"
 
     - name: Download Package Dependencies
       id: package
